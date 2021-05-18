@@ -3,49 +3,49 @@ export interface Identifiable {
 }
 
 export class ObjectSet<T extends Identifiable> {
-  private values: Record<string, T>
+  private values: Record<string, T>;
 
   constructor(values: Array<T> = []) {
-    this.values = {}
-    values.forEach(value => {
-      this.values[value.toString()] = value
-    })
+    this.values = {};
+    values.forEach((value) => {
+      this.values[value.toString()] = value;
+    });
   }
 
   get size() {
-    return Object.keys(this.values).length
+    return Object.keys(this.values).length;
   }
 
   add(value: T): ObjectSet<T> {
-    this.values[value.toString()] = value
-    return this
+    this.values[value.toString()] = value;
+    return this;
   }
 
   clear(): void {
-    this.values = {}
+    this.values = {};
   }
 
   delete(value: T): boolean {
     if (!this.has(value)) {
-      return false
+      return false;
     }
-    delete this.values[value.toString()]
-    return true
+    delete this.values[value.toString()];
+    return true;
   }
 
   has(value: T): boolean {
-    return Object.keys(this.values).includes(value.toString())
+    return Object.keys(this.values).includes(value.toString());
   }
 
-  private index = 0
-    next(...args: [] | [undefined]): IteratorResult<T, any> {
-      const arr = Object.values(this.values)
-      return this.index < arr.length
-        ? {value: arr[this.index++], done: false}
-        : {value: undefined, done: true}
-    }
+  private index = 0;
+  next(...args: [] | [undefined]): IteratorResult<T, any> {
+    const arr = Object.values(this.values);
+    return this.index < arr.length
+      ? { value: arr[this.index++], done: false }
+      : { value: undefined, done: true };
+  }
 
   [Symbol.iterator](): IterableIterator<T> {
-    return this
+    return this;
   }
 }
