@@ -1,6 +1,6 @@
 {
   "name": "@ysku/object-set",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "set data structure for objects",
   "main": "dist/index.js",
   "scripts": {

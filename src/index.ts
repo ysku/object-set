@@ -22,7 +22,7 @@ export class ObjectSet<T> {
     return Object.keys(this.values).length;
   }
 
-  add(value: T): ObjectSet<T> {
+  add(value: T): this {
     this.values[this.getKey(value)] = value;
     return this;
   }
@@ -68,26 +68,32 @@ export class ObjectSet<T> {
     return Object.values(this.values);
   }
 
-  union(other: ObjectSet<T>): ObjectSet<T> {
-    return new ObjectSet([...this, ...other]);
+  union(other: this): this {
+    return new (<any>this.constructor)([...this, ...other]);
   }
 
-  intersection(other: ObjectSet<T>): ObjectSet<T> {
-    return new ObjectSet(this.getValues().filter((v) => other.has(v)));
+  intersection(other: this): this {
+    return new (<any>this.constructor)(
+      this.getValues().filter((v) => other.has(v))
+    );
   }
 
-  difference(other: ObjectSet<T>): ObjectSet<T> {
-    return new ObjectSet(this.getValues().filter((v) => !other.has(v)));
+  difference(other: this): this {
+    return new (<any>this.constructor)(
+      this.getValues().filter((v) => !other.has(v))
+    );
   }
 
-  symmetricDifference(other: ObjectSet<T>): ObjectSet<T> {
+  symmetricDifference(other: this): this {
     const union = this.union(other);
     const intersection = this.intersection(other);
-    return new ObjectSet(union.getValues().filter((v) => !intersection.has(v)));
+    return new (<any>this.constructor)(
+      union.getValues().filter((v) => !intersection.has(v))
+    );
   }
 
-  clone(): ObjectSet<T> {
-    return new ObjectSet(this.getValues());
+  clone(): this {
+    return new (<any>this.constructor)(this.getValues());
   }
 }
 
