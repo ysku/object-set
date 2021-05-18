@@ -12,7 +12,7 @@ export class ObjectSet<T extends Identifiable> {
     });
   }
 
-  get size() {
+  get size(): number {
     return Object.keys(this.values).length;
   }
 
@@ -38,7 +38,8 @@ export class ObjectSet<T extends Identifiable> {
   }
 
   private index = 0;
-  next(...args: [] | [undefined]): IteratorResult<T, any> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next(...args: [] | [undefined]): IteratorResult<T> {
     const arr = Object.values(this.values);
     return this.index < arr.length
       ? { value: arr[this.index++], done: false }
