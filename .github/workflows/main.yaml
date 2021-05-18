@@ -35,6 +35,17 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: 'https://npm.pkg.github.com'
+      - name: Display version of Node.js, npm
+        run: |
+          node --version
+          npm --version
       - name: build
         run: npm run build
       - name: publish
