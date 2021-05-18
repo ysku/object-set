@@ -64,6 +64,16 @@ export class ObjectSet<T> {
     return new ObjectSet(this.getValues().filter((v) => other.has(v)));
   }
 
+  difference(other: ObjectSet<T>): ObjectSet<T> {
+    return new ObjectSet(this.getValues().filter((v) => !other.has(v)));
+  }
+
+  symmetricDifference(other: ObjectSet<T>): ObjectSet<T> {
+    const union = this.union(other);
+    const intersection = this.intersection(other);
+    return new ObjectSet(union.getValues().filter((v) => !intersection.has(v)));
+  }
+
   clone(): ObjectSet<T> {
     return new ObjectSet(this.getValues());
   }
