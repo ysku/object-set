@@ -39,17 +39,25 @@ export class ObjectSet<T> {
     return Object.keys(this.values).includes(objectHash(value));
   }
 
-  #index = 0;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  next(...args: [] | [undefined]): IteratorResult<T> {
-    const arr = Object.values(this.values);
-    return this.#index < arr.length
-      ? { value: arr[this.#index++], done: false }
-      : { value: undefined, done: true };
-  }
+  [Symbol.iterator](): Iterator<T> {
+    let pointer = 0;
+    let items = Object.values(this.values);
 
-  [Symbol.iterator](): IterableIterator<T> {
-    return this;
+    return {
+      next(): IteratorResult<T> {
+        if (pointer < items.length) {
+          return {
+            done: false,
+            value: items[pointer++],
+          };
+        } else {
+          return {
+            done: true,
+            value: null,
+          };
+        }
+      },
+    };
   }
 
   getValues(): Array<T> {

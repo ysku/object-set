@@ -96,9 +96,19 @@ test("iterator", () => {
   const item2 = new Item({ name: "item2", price: 200 });
   const item3 = new Item({ name: "item3", price: 300 });
   const set = new ObjectSet([item1, item2, item3]);
+  let counter = 0;
   for (const item of set) {
+    counter++;
     expect(item).toBeTruthy();
   }
+  expect(counter).toBe(3);
+
+  counter = 0;
+  for (const item of set) {
+    counter++;
+    expect(item).toBeTruthy();
+  }
+  expect(counter).toBe(3);
 });
 
 test("union", () => {
