@@ -11,6 +11,10 @@ export class ObjectSet<T> {
   }
 
   get size(): number {
+    return this.length;
+  }
+
+  get length(): number {
     return Object.keys(this.values).length;
   }
 
@@ -46,5 +50,17 @@ export class ObjectSet<T> {
 
   [Symbol.iterator](): IterableIterator<T> {
     return this;
+  }
+
+  getValues(): Array<T> {
+    return Object.values(this.values);
+  }
+
+  union(other: ObjectSet<T>): ObjectSet<T> {
+    return new ObjectSet([...this, ...other]);
+  }
+
+  intersection(other: ObjectSet<T>): ObjectSet<T> {
+    return new ObjectSet(this.getValues().filter((v) => other.has(v)));
   }
 }
