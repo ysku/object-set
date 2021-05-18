@@ -4,8 +4,8 @@
   "description": "set data structure for objects with an identifier",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "prettier --check './{src,test}/**/*.{js,ts}'",
-    "lint:fix": "prettier --write './{src,test}/**/*.{js,ts}'",
+    "lint": "prettier --check './{src,test,examples}/**/*.{js,ts}'",
+    "lint:fix": "prettier --write './{src,test,examples}/**/*.{js,ts}'",
     "build": "tsc",
     "test": "jest",
     "prepare": "husky install"
