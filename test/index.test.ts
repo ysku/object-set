@@ -127,3 +127,12 @@ test("intersection", () => {
     sortBy(set1.intersection(set2).getValues(), (obj) => objectHash(obj))
   ).toEqual(sortBy([item3], (obj) => objectHash(obj)));
 });
+
+test("clone", () => {
+  const set = new ObjectSet([
+    new Item({ name: "item1", price: 100 }),
+    new Item({ name: "item1", price: 100 }),
+    new Item({ name: "item2", price: 200 }),
+  ]);
+  expect(set.clone()).not.toBe(set);
+});

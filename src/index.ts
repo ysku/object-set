@@ -63,4 +63,8 @@ export class ObjectSet<T> {
   intersection(other: ObjectSet<T>): ObjectSet<T> {
     return new ObjectSet(this.getValues().filter((v) => other.has(v)));
   }
+
+  clone(): ObjectSet<T> {
+    return new ObjectSet(this.getValues());
+  }
 }
