@@ -46,6 +46,8 @@ jobs:
         run: |
           node --version
           npm --version
+      - name: install
+        run: npm install
       - name: build
         run: npm run build
       - name: publish
