@@ -1,3 +1,5 @@
+import objectHash from "object-hash";
+import { sortBy } from "lodash";
 import { ObjectSet } from "../src";
 
 class Item {
@@ -86,4 +88,77 @@ test("toArray", () => {
   const set = new ObjectSet([item1, item2, item3]);
   const arr = [...set];
   expect(arr.length).toBe(3);
+});
+
+test("iterator", () => {
+  const item1 = new Item({ name: "item1", price: 100 });
+  const item2 = new Item({ name: "item2", price: 200 });
+  const item3 = new Item({ name: "item3", price: 300 });
+  const set = new ObjectSet([item1, item2, item3]);
+  for (const item of set) {
+    expect(item).toBeTruthy();
+  }
+});
+
+test("union", () => {
+  const item1 = new Item({ name: "item1", price: 100 });
+  const item2 = new Item({ name: "item2", price: 200 });
+  const item3 = new Item({ name: "item3", price: 300 });
+  const set1 = new ObjectSet([item1, item2, item3]);
+  const item4 = new Item({ name: "item4", price: 400 });
+  const item5 = new Item({ name: "item5", price: 500 });
+  const set2 = new ObjectSet([item3, item4, item5]);
+  expect(
+    sortBy(set1.union(set2).getValues(), (obj) => objectHash(obj))
+  ).toEqual(
+    sortBy([item1, item2, item3, item4, item5], (obj) => objectHash(obj))
+  );
+});
+
+test("intersection", () => {
+  const item1 = new Item({ name: "item1", price: 100 });
+  const item2 = new Item({ name: "item2", price: 200 });
+  const item3 = new Item({ name: "item3", price: 300 });
+  const set1 = new ObjectSet([item1, item2, item3]);
+  const item4 = new Item({ name: "item4", price: 400 });
+  const item5 = new Item({ name: "item5", price: 500 });
+  const set2 = new ObjectSet([item3, item4, item5]);
+  expect(
+    sortBy(set1.intersection(set2).getValues(), (obj) => objectHash(obj))
+  ).toEqual(sortBy([item3], (obj) => objectHash(obj)));
+});
+
+test("difference", () => {
+  const item1 = new Item({ name: "item1", price: 100 });
+  const item2 = new Item({ name: "item2", price: 200 });
+  const item3 = new Item({ name: "item3", price: 300 });
+  const set1 = new ObjectSet([item1, item2, item3]);
+  const item4 = new Item({ name: "item4", price: 400 });
+  const item5 = new Item({ name: "item5", price: 500 });
+  const set2 = new ObjectSet([item3, item4, item5]);
+  expect(
+    sortBy(set1.difference(set2).getValues(), (obj) => objectHash(obj))
+  ).toEqual(sortBy([item1, item2], (obj) => objectHash(obj)));
+});
+
+test("symmetricDifference", () => {
+  const item1 = new Item({ name: "item1", price: 100 });
+  const item2 = new Item({ name: "item2", price: 200 });
+  const item3 = new Item({ name: "item3", price: 300 });
+  const item4 = new Item({ name: "item4", price: 400 });
+  const item5 = new Item({ name: "item5", price: 500 });
+  const set1 = new ObjectSet([item1, item2, item3]);
+  const set2 = new ObjectSet([item3, item4, item5]);
+  expect(
+    sortBy(set1.symmetricDifference(set2).getValues(), (obj) => objectHash(obj))
+  ).toEqual(sortBy([item1, item2, item4, item5], (obj) => objectHash(obj)));
+});
+
+test("clone", () => {
+  const set = new ObjectSet([
+    new Item({ name: "item1", price: 100 }),
+    new Item({ name: "item1", price: 100 }),
+    new Item({ name: "item2", price: 200 }),
+  ]);
+  expect(set.clone()).not.toBe(set);
 });

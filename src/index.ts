@@ -1,23 +1,25 @@
-export interface Identifiable {
-  toString(): string;
-}
+import objectHash from "object-hash";
 
-export class ObjectSet<T extends Identifiable> {
+export class ObjectSet<T> {
   private values: Record<string, T>;
 
   constructor(values: Array<T> = []) {
     this.values = {};
     values.forEach((value) => {
-      this.values[value.toString()] = value;
+      this.values[objectHash(value)] = value;
     });
   }
 
   get size(): number {
+    return this.length;
+  }
+
+  get length(): number {
     return Object.keys(this.values).length;
   }
 
   add(value: T): ObjectSet<T> {
-    this.values[value.toString()] = value;
+    this.values[objectHash(value)] = value;
     return this;
   }
 
@@ -29,12 +31,12 @@ export class ObjectSet<T extends Identifiable> {
     if (!this.has(value)) {
       return false;
     }
-    delete this.values[value.toString()];
+    delete this.values[objectHash(value)];
     return true;
   }
 
   has(value: T): boolean {
-    return Object.keys(this.values).includes(value.toString());
+    return Object.keys(this.values).includes(objectHash(value));
   }
 
   private index = 0;
@@ -48,5 +50,31 @@ export class ObjectSet<T extends Identifiable> {
 
   [Symbol.iterator](): IterableIterator<T> {
     return this;
+  }
+
+  getValues(): Array<T> {
+    return Object.values(this.values);
+  }
+
+  union(other: ObjectSet<T>): ObjectSet<T> {
+    return new ObjectSet([...this, ...other]);
+  }
+
+  intersection(other: ObjectSet<T>): ObjectSet<T> {
+    return new ObjectSet(this.getValues().filter((v) => other.has(v)));
+  }
+
+  difference(other: ObjectSet<T>): ObjectSet<T> {
+    return new ObjectSet(this.getValues().filter((v) => !other.has(v)));
+  }
+
+  symmetricDifference(other: ObjectSet<T>): ObjectSet<T> {
+    const union = this.union(other);
+    const intersection = this.intersection(other);
+    return new ObjectSet(union.getValues().filter((v) => !intersection.has(v)));
+  }
+
+  clone(): ObjectSet<T> {
+    return new ObjectSet(this.getValues());
   }
 }
