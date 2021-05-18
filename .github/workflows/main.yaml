@@ -35,6 +35,8 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
+      - name: build
+        run: npm run build
       - name: publish
         run: |
           npx can-npm-publish --verbose && npm publish || echo "Does not publish"
