@@ -2,10 +2,7 @@ name: object-set
 env:
   CI: true
 
-on:
-  push:
-    paths:
-      - 'src/**'
+on: push
 
 jobs:
   test:
