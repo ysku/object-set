@@ -1,7 +1,7 @@
 {
-  "name": "object-set",
+  "name": "@ysku/object-set",
   "version": "0.1.0",
-  "description": "set data structure for objects with an identifier",
+  "description": "set data structure for objects",
   "main": "dist/index.js",
   "scripts": {
     "lint": "prettier --check './{src,test,examples}/**/*.{js,ts}'",
