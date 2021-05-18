@@ -1,3 +1,4 @@
+import deepEqual from "deep-equal";
 import objectHash from "object-hash";
 import { sortBy } from "lodash";
 import { ObjectSet } from "../src";
@@ -161,4 +162,15 @@ test("clone", () => {
     new Item({ name: "item2", price: 200 }),
   ]);
   expect(set.clone()).not.toBe(set);
+});
+
+test("hard private", () => {
+  const item1 = new Item({ name: "item1", price: 100 });
+  const item2 = new Item({ name: "item2", price: 200 });
+  const set1 = new ObjectSet([item1, item2]);
+  for (let item of set1) {
+    console.debug(item);
+  }
+  const set2 = new ObjectSet([item1, item2]);
+  expect(deepEqual(set1, set2)).toBeTruthy();
 });

@@ -39,12 +39,12 @@ export class ObjectSet<T> {
     return Object.keys(this.values).includes(objectHash(value));
   }
 
-  private index = 0;
+  #index = 0;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next(...args: [] | [undefined]): IteratorResult<T> {
     const arr = Object.values(this.values);
-    return this.index < arr.length
-      ? { value: arr[this.index++], done: false }
+    return this.#index < arr.length
+      ? { value: arr[this.#index++], done: false }
       : { value: undefined, done: true };
   }
 
