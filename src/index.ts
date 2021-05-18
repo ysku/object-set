@@ -1,14 +1,12 @@
-export interface Identifiable {
-  toString(): string;
-}
+import objectHash from "object-hash";
 
-export class ObjectSet<T extends Identifiable> {
+export class ObjectSet<T> {
   private values: Record<string, T>;
 
   constructor(values: Array<T> = []) {
     this.values = {};
     values.forEach((value) => {
-      this.values[value.toString()] = value;
+      this.values[objectHash(value)] = value;
     });
   }
 
@@ -17,7 +15,7 @@ export class ObjectSet<T extends Identifiable> {
   }
 
   add(value: T): ObjectSet<T> {
-    this.values[value.toString()] = value;
+    this.values[objectHash(value)] = value;
     return this;
   }
 
@@ -29,12 +27,12 @@ export class ObjectSet<T extends Identifiable> {
     if (!this.has(value)) {
       return false;
     }
-    delete this.values[value.toString()];
+    delete this.values[objectHash(value)];
     return true;
   }
 
   has(value: T): boolean {
-    return Object.keys(this.values).includes(value.toString());
+    return Object.keys(this.values).includes(objectHash(value));
   }
 
   private index = 0;

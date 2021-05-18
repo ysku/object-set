@@ -9,7 +9,7 @@ class Item {
     this.price = price;
   }
 
-  toString(): string {
+  getUniqueKey(): string {
     return `${this.name} - ${this.price}`;
   }
 
@@ -86,4 +86,14 @@ test("toArray", () => {
   const set = new ObjectSet([item1, item2, item3]);
   const arr = [...set];
   expect(arr.length).toBe(3);
+});
+
+test("iterator", () => {
+  const item1 = new Item({ name: "item1", price: 100 });
+  const item2 = new Item({ name: "item2", price: 200 });
+  const item3 = new Item({ name: "item3", price: 300 });
+  const set = new ObjectSet([item1, item2, item3]);
+  for (const item of set) {
+    expect(item).toBeTruthy();
+  }
 });
