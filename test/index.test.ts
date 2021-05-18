@@ -175,6 +175,7 @@ describe("ObjectSet", () => {
       new Item({ name: "item2", price: 200 }),
     ]);
     expect(set.clone()).not.toBe(set);
+    expect(set).toBeInstanceOf(ObjectSet);
   });
 
   test("hard private", () => {
@@ -365,6 +366,7 @@ describe("ObjectWithKeySet", () => {
       new ItemWithKey({ name: "item2", price: 200 }),
     ]);
     expect(set.clone()).not.toBe(set);
+    expect(set).toBeInstanceOf(ObjectWithKeySet);
   });
 
   test("hard private", () => {
