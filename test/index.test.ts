@@ -168,6 +168,31 @@ describe("ObjectSet", () => {
     ).toEqual(sortBy([item1, item2, item4, item5], (obj) => objectHash(obj)));
   });
 
+  test("isSubset", () => {
+    const item1 = new Item({ name: "item1", price: 100 });
+    const item2 = new Item({ name: "item2", price: 200 });
+    const item3 = new Item({ name: "item3", price: 300 });
+    const item4 = new Item({ name: "item4", price: 400 });
+    const item5 = new Item({ name: "item5", price: 500 });
+    const set1 = new ObjectSet([item1, item2, item3]);
+    const set2 = new ObjectSet([item1, item2, item3, item4, item5]);
+    expect(set1.isSubset(set2)).toBe(true);
+    expect(set2.isSubset(set1)).toBe(false);
+  });
+
+  test("isEqual", () => {
+    const item1 = new Item({ name: "item1", price: 100 });
+    const item2 = new Item({ name: "item2", price: 200 });
+    const item3 = new Item({ name: "item3", price: 300 });
+    const item4 = new Item({ name: "item4", price: 400 });
+    const item5 = new Item({ name: "item5", price: 500 });
+    const set1 = new ObjectSet([item1, item2, item3]);
+    const set2 = new ObjectSet([item1, item2, item3]);
+    const set3 = new ObjectSet([item3, item4, item5]);
+    expect(set1.isEqual(set2)).toBe(true);
+    expect(set2.isEqual(set3)).toBe(false);
+  });
+
   test("clone", () => {
     const set = new ObjectSet([
       new Item({ name: "item1", price: 100 }),
@@ -357,6 +382,31 @@ describe("ObjectWithKeySet", () => {
         objectHash(obj)
       )
     ).toEqual(sortBy([item1, item2, item4, item5], (obj) => objectHash(obj)));
+  });
+
+  test("isSubset", () => {
+    const item1 = new ItemWithKey({ name: "item1", price: 100 });
+    const item2 = new ItemWithKey({ name: "item2", price: 200 });
+    const item3 = new ItemWithKey({ name: "item3", price: 300 });
+    const item4 = new ItemWithKey({ name: "item4", price: 400 });
+    const item5 = new ItemWithKey({ name: "item5", price: 500 });
+    const set1 = new ObjectWithKeySet([item1, item2, item3]);
+    const set2 = new ObjectWithKeySet([item1, item2, item3, item4, item5]);
+    expect(set1.isSubset(set2)).toBe(true);
+    expect(set2.isSubset(set1)).toBe(false);
+  });
+
+  test("isEqual", () => {
+    const item1 = new ItemWithKey({ name: "item1", price: 100 });
+    const item2 = new ItemWithKey({ name: "item2", price: 200 });
+    const item3 = new ItemWithKey({ name: "item3", price: 300 });
+    const item4 = new ItemWithKey({ name: "item4", price: 400 });
+    const item5 = new ItemWithKey({ name: "item5", price: 500 });
+    const set1 = new ObjectWithKeySet([item1, item2, item3]);
+    const set2 = new ObjectWithKeySet([item1, item2, item3]);
+    const set3 = new ObjectWithKeySet([item3, item4, item5]);
+    expect(set1.isEqual(set2)).toBe(true);
+    expect(set2.isEqual(set3)).toBe(false);
   });
 
   test("clone", () => {

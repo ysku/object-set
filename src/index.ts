@@ -92,6 +92,14 @@ export class ObjectSet<T> {
     );
   }
 
+  isSubset(other: this): boolean {
+    return this.getValues().every((v) => other.has(v));
+  }
+
+  isEqual(other: this): boolean {
+    return this.isSubset(other) && other.isSubset(this);
+  }
+
   clone(): this {
     return new (<any>this.constructor)(this.getValues());
   }
