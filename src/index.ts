@@ -45,7 +45,7 @@ export class ObjectSet<T> {
 
   [Symbol.iterator](): Iterator<T> {
     let pointer = 0;
-    let items = Object.values(this.values);
+    const items = Object.values(this.values);
 
     return {
       next(): IteratorResult<T> {
@@ -112,5 +112,13 @@ export interface ObjectWithKey {
 export class ObjectWithKeySet<T extends ObjectWithKey> extends ObjectSet<T> {
   getKey(value: T): string {
     return value.getKey();
+  }
+
+  getByKey(key: string): T | null {
+    const value = this.values[key];
+    if (value) {
+      return value;
+    }
+    return null;
   }
 }

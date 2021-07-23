@@ -265,6 +265,15 @@ describe("ObjectWithKeySet", () => {
     expect(set.size).toBe(2);
   });
 
+  test("getByKey", () => {
+    const item1 = new ItemWithKey({ name: "item1", price: 100 });
+    const item2 = new ItemWithKey({ name: "item2", price: 200 });
+    const item3 = new ItemWithKey({ name: "item1", price: 100 });
+    const set = new ObjectWithKeySet([item1, item2, item3]);
+    expect(set.getByKey(item1.getKey())).toEqual(item1);
+    expect(set.getByKey("key")).toEqual(null);
+  });
+
   test("clear", () => {
     const set = new ObjectWithKeySet();
     expect(
