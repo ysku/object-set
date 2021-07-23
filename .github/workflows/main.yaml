@@ -62,7 +62,7 @@ jobs:
     name: publish
     needs:
       - test
-      - bump-version
+      # - bump-version
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
