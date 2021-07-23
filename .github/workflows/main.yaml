@@ -2,7 +2,15 @@ name: object-set
 env:
   CI: true
 
-on: push
+on:
+  push:
+  workflow_dispatch:
+    branches: [main]
+    inputs:
+      version:
+        description: version
+        default: patch
+        required: true
 
 jobs:
   test:
@@ -29,9 +37,32 @@ jobs:
       - name: test
         run: npm run test
 
+  bump-version:
+    needs: test
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: bump patch version
+        if: github.event.inputs.version == 'patch'
+        run: npm --no-git-tag-version version patch
+      - name: bump minor version
+        if: github.event.inputs.version == 'minor'
+        run: npm --no-git-tag-version version minor
+      - name: bump major version
+        if: github.event.inputs.version == 'major'
+        run: npm --no-git-tag-version version major
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        if: github.event.inputs.version == 'patch' || github.event.inputs.version == 'minor' || github.event.inputs.version == 'major'
+        with:
+          commit_message: "bump version"
+
   publish:
     name: publish
-    needs: test
+    needs:
+      - test
+      - bump-version
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
